@@ -23,7 +23,7 @@ def Shell_Sort(list: list[int]):
             list[j] = temp
         # 得到新的步長
         gap = gap // 2
-        Result = ' '.join(map(lambda s: str(s) + ',', list))
+        Result = ' '.join(map(lambda s: str(s) + ',', list))[:-1]
         Text.insert(END, f'第{num2cn(Count)}輪排序結果：{Result}\n')
         Count += 1
     Text.insert(END, f'最終排序結果：{Result}\n')

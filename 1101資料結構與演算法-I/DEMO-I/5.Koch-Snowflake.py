@@ -11,7 +11,7 @@ def koch(dis: float, order: int) -> None:
 
 def onPress() -> None:
     num = Input.get()
-    if num == '' or num not in "0123456":
+    if num == '' or int(num) not in [0,1,2,3,4,5,6]:
         Input.delete(0, 'end')
         Input.insert(0, "請輸入正確的輸入！")
         Input.configure(fg='red')
