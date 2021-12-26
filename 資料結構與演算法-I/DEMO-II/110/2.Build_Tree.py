@@ -8,6 +8,8 @@ class Node:
         self.data = data
         self.left = None
         self.right = None
+        self.x = -1
+        self.y = -1
 
 def buildTree(preorder: list, inorder: list,
               start: int, end: int):
@@ -29,12 +31,23 @@ def search(arr, start, end, value) -> int:
             return i
     return -1 
 
+def knuth_layout(tree, depth = 0):
+    if tree.left: 
+        knuth_layout(tree.left, depth-1)
+    tree.x = knuth_layout.i
+    tree.y = depth
+    knuth_layout.i += 1
+    if tree.right: 
+        knuth_layout(tree.right, depth-1)
+
 def onPressGetTree():
     setUpTurtle()
     buildTree.i = 0
+    knuth_layout.i = -4
     preorder = entryPreorder.get().replace(',', ' ').split()
     inorder  = entryInorder.get().replace(',', ' ').split()
     bTree = buildTree(preorder, inorder, 0, len(preorder)-1)
+    knuth_layout(bTree)
     drawTree(bTree)
     t.hideturtle()
 
@@ -56,16 +69,16 @@ def draw_node(turtle, text, x, y):
     turtle.goto(x, y)
     turtle.pendown()
 
-def drawTree(bTree, dis = 50, x = 0, y = 0) -> None:
+def drawTree(bTree) -> None:
     if bTree == None: return None
-    t.down()
-    t.goto(x * GRID_SIZE, y * GRID_SIZE + 250)
-    drawTree(bTree.left,  dis, x-1, y-1)
+    t.down() if bTree.y != 0 else t.up()
+    t.goto(bTree.x * GRID_SIZE, bTree.y * GRID_SIZE + 250)
+    drawTree(bTree.left)
     t.up()
-    t.goto(x * GRID_SIZE, y * GRID_SIZE + 250)
-    drawTree(bTree.right, dis, x+1, y-1)
+    t.goto(bTree.x * GRID_SIZE, bTree.y * GRID_SIZE + 250)
+    drawTree(bTree.right)
     t.up()
-    t.goto(x * GRID_SIZE, y * GRID_SIZE + 250)
+    t.goto(bTree.x * GRID_SIZE, bTree.y * GRID_SIZE + 250)
     draw_node(t, bTree.data, t.xcor(), t.ycor())
 
 def setUpTurtle() -> None:
